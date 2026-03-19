@@ -29,9 +29,14 @@
 
         /* 页面容器 */
         .page-container {
-            max-width: 1012px;
+            max-width: 980px;
             margin: 0 auto;
-            padding: 32px;
+            padding: 24px 0;
+        }
+
+        /* 内容区域 */
+        .content {
+            padding: 0 16px;
         }
 
         /* Markdown 内容区域 */
@@ -60,13 +65,13 @@
         .markdown-body h1 {
             font-size: 2em;
             padding-bottom: 0.3em;
-            border-bottom: 1px solid #d0d7de;
+            border-bottom: 1px solid #eaecef;
         }
 
         .markdown-body h2 {
             font-size: 1.5em;
             padding-bottom: 0.3em;
-            border-bottom: 1px solid #d0d7de;
+            border-bottom: 1px solid #eaecef;
         }
 
         .markdown-body h3 {
@@ -94,18 +99,12 @@
 
         /* 链接样式 */
         .markdown-body a {
-            background-color: transparent;
-            color: #0969da;
+            color: #0366d6;
             text-decoration: none;
         }
 
         .markdown-body a:hover {
             text-decoration: underline;
-        }
-
-        .markdown-body a:active,
-        .markdown-body a:hover {
-            outline-width: 0;
         }
 
         /* 粗体和斜体 */
@@ -117,44 +116,33 @@
             font-style: italic;
         }
 
-        /* 删除线 */
-        .markdown-body del {
-            text-decoration: line-through;
-        }
-
         /* 代码样式 - 行内 */
         .markdown-body code {
-            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
-            font-size: 85%;
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 0.85em;
             padding: 0.2em 0.4em;
             margin: 0;
-            background-color: rgba(175, 184, 193, 0.2);
-            border-radius: 6px;
-            color: inherit;
+            background-color: rgba(27, 31, 35, 0.05);
+            border-radius: 3px;
         }
 
         /* 代码块样式 */
         .markdown-body pre {
-            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
-            font-size: 85%;
-            line-height: 1.45;
+            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 0.85em;
+            line-height: 1.5;
             background-color: #f6f8fa;
-            border-radius: 6px;
+            border-radius: 3px;
             padding: 16px;
             overflow: auto;
             margin-top: 0;
             margin-bottom: 16px;
-            word-wrap: normal;
-            border: 1px solid #d0d7de;
         }
 
         .markdown-body pre code {
             display: inline;
             padding: 0;
             margin: 0;
-            overflow: visible;
-            line-height: inherit;
-            word-wrap: normal;
             background-color: transparent;
             border: 0;
             font-size: 100%;
@@ -184,31 +172,12 @@
             margin-top: 16px;
         }
 
-        .markdown-body li + li {
-            margin-top: 0.25em;
-        }
-
-        /* 任务列表 */
-        .markdown-body ul.contains-task-list {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .markdown-body .task-list-item {
-            list-style-type: none;
-        }
-
-        .markdown-body .task-list-item-checkbox {
-            margin: 0 0.2em 0.25em -1.6em;
-            vertical-align: middle;
-        }
-
         /* 引用块样式 */
         .markdown-body blockquote {
-            margin: 0 0 16px;
+            margin: 0 0 16px 0;
             padding: 0 1em;
-            color: #656d76;
-            border-left: 0.25em solid #d0d7de;
+            color: #6a737d;
+            border-left: 0.25em solid #dfe2e5;
         }
 
         .markdown-body blockquote > :first-child {
@@ -228,6 +197,7 @@
             width: 100%;
             overflow: auto;
             display: block;
+            font-size: 0.875em;
         }
 
         .markdown-body table th {
@@ -238,20 +208,16 @@
         .markdown-body table th,
         .markdown-body table td {
             padding: 6px 13px;
-            border: 1px solid #d0d7de;
+            border: 1px solid #dfe2e5;
         }
 
         .markdown-body table tr {
             background-color: #ffffff;
-            border-top: 1px solid #d0d7de;
+            border-top: 1px solid #c6cbd1;
         }
 
         .markdown-body table tr:nth-child(2n) {
             background-color: #f6f8fa;
-        }
-
-        .markdown-body table img {
-            background-color: transparent;
         }
 
         /* 水平分割线 */
@@ -259,7 +225,7 @@
             height: 0.25em;
             padding: 0;
             margin: 24px 0;
-            background-color: #d0d7de;
+            background-color: #e1e4e8;
             border: 0;
         }
 
@@ -268,39 +234,6 @@
             max-width: 100%;
             box-sizing: content-box;
             background-color: #ffffff;
-            border-style: none;
-        }
-
-        .markdown-body img[align=right] {
-            padding-left: 20px;
-        }
-
-        .markdown-body img[align=left] {
-            padding-right: 20px;
-        }
-
-        /* 图片容器 */
-        .markdown-body .emoji {
-            max-width: none;
-            vertical-align: text-top;
-            background-color: transparent;
-        }
-
-        /* 高亮标记 */
-        .markdown-body mark {
-            background-color: #fff8c5;
-            color: #1f2328;
-            padding: 0.2em 0.4em;
-            border-radius: 3px;
-        }
-
-        /* 脚注 */
-        .markdown-body .footnotes {
-            font-size: 12px;
-            color: #656d76;
-            border-top: 1px solid #d0d7de;
-            margin-top: 24px;
-            padding-top: 16px;
         }
 
         /* 数学公式样式 */
@@ -308,116 +241,74 @@
             margin: 16px 0;
             overflow-x: auto;
             overflow-y: hidden;
-            padding: 16px;
-            background-color: #f6f8fa;
-            border-radius: 6px;
         }
 
-        /* 目录样式 */
-        .toc {
+        /* 顶部导航 */
+        .github-header {
             background-color: #f6f8fa;
-            border: 1px solid #d0d7de;
-            border-radius: 6px;
-            padding: 16px;
+            border-bottom: 1px solid #e1e4e8;
+            padding: 16px 0;
             margin-bottom: 24px;
         }
 
-        .toc h3 {
-            margin-top: 0;
-            margin-bottom: 12px;
+        .github-header-content {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .github-header-title {
             font-size: 14px;
             font-weight: 600;
-            color: #1f2328;
+            color: #24292e;
         }
 
-        .toc ul {
-            list-style-type: none;
-            padding-left: 0;
-            margin: 0;
+        .github-header-actions {
+            display: flex;
+            gap: 8px;
         }
 
-        .toc li {
-            margin: 4px 0;
-        }
-
-        .toc a {
-            color: #0969da;
-            font-size: 14px;
-            text-decoration: none;
-        }
-
-        .toc a:hover {
-            text-decoration: underline;
-        }
-
-        /* 顶部标题栏 */
-        .header {
-            background-color: #24292f;
-            color: #ffffff;
-            padding: 24px 32px;
-            border-bottom: 1px solid #d0d7de;
-        }
-
-        .header h1 {
-            font-size: 24px;
-            font-weight: 400;
-            margin: 0;
-            color: #ffffff;
-        }
-
-        .header p {
-            font-size: 14px;
-            color: #8b949e;
-            margin: 8px 0 0 0;
-        }
-
-        /* 返回按钮 */
-        .back-btn {
+        /* 按钮样式 */
+        .btn {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            margin-top: 32px;
-            padding: 6px 16px;
+            padding: 4px 12px;
             font-size: 14px;
             font-weight: 500;
             line-height: 20px;
             white-space: nowrap;
             cursor: pointer;
             user-select: none;
-            border: 1px solid rgba(27, 31, 36, 0.15);
+            border: 1px solid rgba(27, 31, 35, 0.15);
             border-radius: 6px;
-            appearance: none;
-            color: #24292f;
             background-color: #f6f8fa;
-            box-shadow: 0 1px 0 rgba(27, 31, 36, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+            color: #24292e;
             text-decoration: none;
-            transition: 80ms cubic-bezier(0.33, 1, 0.68, 1);
-            transition-property: color, background-color, box-shadow, border-color;
+            transition: background-color 0.2s, border-color 0.2s;
         }
 
-        .back-btn:hover {
+        .btn:hover {
             background-color: #f3f4f6;
-            border-color: rgba(27, 31, 36, 0.15);
+            border-color: rgba(27, 31, 35, 0.3);
             text-decoration: none;
-        }
-
-        .back-btn:active {
-            background-color: hsla(220, 14%, 93%, 1);
-            box-shadow: inset 0 1px 0 rgba(27, 31, 36, 0.2);
         }
 
         /* 加载动画 */
         .loading {
             text-align: center;
-            padding: 64px;
-            color: #656d76;
+            padding: 64px 16px;
+            color: #6a737d;
         }
 
         .spinner {
             width: 32px;
             height: 32px;
-            border: 3px solid #d0d7de;
-            border-top-color: #0969da;
+            border: 2px solid #e1e4e8;
+            border-top-color: #0366d6;
             border-radius: 50%;
             animation: spinner 1s linear infinite;
             margin: 0 auto 16px;
@@ -430,73 +321,64 @@
         /* 错误提示 */
         .error-message {
             text-align: center;
-            padding: 64px;
-            color: #cf222e;
+            padding: 64px 16px;
+            color: #cb2431;
         }
 
         /* 响应式设计 */
         @media (max-width: 767px) {
             .page-container {
-                padding: 16px;
+                padding: 16px 0;
             }
 
-            .header {
-                padding: 16px;
+            .content {
+                padding: 0 16px;
             }
 
             .markdown-body h1 {
-                font-size: 1.5em;
+                font-size: 1.8em;
             }
 
             .markdown-body h2 {
-                font-size: 1.25em;
+                font-size: 1.5em;
             }
 
             .markdown-body h3 {
-                font-size: 1.125em;
+                font-size: 1.25em;
             }
         }
 
         /* 打印样式 */
         @media print {
-            body {
-                background-color: #ffffff;
+            .github-header {
+                display: none;
             }
 
-            .header {
-                background-color: #ffffff;
-                color: #1f2328;
-                border-bottom: 1px solid #d0d7de;
-            }
-
-            .header h1 {
-                color: #1f2328;
-            }
-
-            .back-btn {
+            .btn {
                 display: none;
             }
         }
 
         /* 选择文本样式 */
         ::selection {
-            background-color: #0969da;
+            background-color: #0366d6;
             color: #ffffff;
         }
 
         /* 滚动条样式 */
         ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
         }
 
         ::-webkit-scrollbar-track {
             background: #f1f1f1;
+            border-radius: 6px;
         }
 
         ::-webkit-scrollbar-thumb {
             background: #c1c1c1;
-            border-radius: 5px;
+            border-radius: 6px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
@@ -505,19 +387,25 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>📚 图形学基础原理</h1>
-        <p>深度完整版 - 深入理解渲染的本质、坐标系变换的设计哲学、光栅化的底层原理</p>
+    <!-- GitHub 风格顶部导航 -->
+    <div class="github-header">
+        <div class="github-header-content">
+            <div class="github-header-title">001.md</div>
+            <div class="github-header-actions">
+                <a href="index.html" class="btn">← 返回主页</a>
+            </div>
+        </div>
     </div>
 
     <div class="page-container">
-        <div id="markdown-content" class="markdown-body">
-            <div class="loading">
-                <div class="spinner"></div>
-                <p>正在加载文档...</p>
+        <div class="content">
+            <div id="markdown-content" class="markdown-body">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>正在加载文档...</p>
+                </div>
             </div>
         </div>
-        <a href="index.html" class="back-btn">← 返回主页</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.0.0/dist/markdown-it.min.js"></script>
@@ -570,7 +458,7 @@
                     <div class="error-message">
                         <h2>❌ 加载失败</h2>
                         <p>无法加载Markdown文件，请确保001.md文件存在。</p>
-                        <p style="font-size: 14px; color: #656d76; margin-top: 16px;">错误信息: ${error.message}</p>
+                        <p style="font-size: 14px; color: #6a737d; margin-top: 16px;">错误信息: ${error.message}</p>
                     </div>
                 `;
             }
