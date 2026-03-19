@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>图形学基础原理</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css" integrity="sha512-7aFhVJkQEKGDqYYq1xJ1g5sXy9GevS0K1qk1VlmJWxPOG8O7r7vL3h0G9SvpTfd8qXQV99M1E6O4cLzG3vK7UQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
         /* ========================================
            GitHub Markdown 样式 - 精确还原
            ======================================== */
         
-        /* 基础重置 */
         * {
             margin: 0;
             padding: 0;
@@ -27,19 +28,16 @@
             word-wrap: break-word;
         }
 
-        /* 页面容器 */
         .page-container {
             max-width: 980px;
             margin: 0 auto;
             padding: 24px 0;
         }
 
-        /* 内容区域 */
         .content {
             padding: 0 16px;
         }
 
-        /* Markdown 内容区域 */
         .markdown-body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
             font-size: 16px;
@@ -48,7 +46,6 @@
             color: #1f2328;
         }
 
-        /* 标题样式 */
         .markdown-body h1,
         .markdown-body h2,
         .markdown-body h3,
@@ -60,63 +57,22 @@
             font-weight: 600;
             line-height: 1.25;
             color: #1f2328;
+            scroll-margin-top: 20px;
         }
 
-        .markdown-body h1 {
-            font-size: 2em;
-            padding-bottom: 0.3em;
-            border-bottom: 1px solid #eaecef;
-        }
+        .markdown-body h1 { font-size: 2em; padding-bottom: 0.3em; border-bottom: 1px solid #eaecef; }
+        .markdown-body h2 { font-size: 1.5em; padding-bottom: 0.3em; border-bottom: 1px solid #eaecef; }
+        .markdown-body h3 { font-size: 1.25em; }
+        .markdown-body h4 { font-size: 1em; }
+        .markdown-body h5 { font-size: 0.875em; }
+        .markdown-body h6 { font-size: 0.85em; color: #656d76; }
 
-        .markdown-body h2 {
-            font-size: 1.5em;
-            padding-bottom: 0.3em;
-            border-bottom: 1px solid #eaecef;
-        }
+        .markdown-body p { margin-top: 0; margin-bottom: 16px; }
+        .markdown-body a { color: #0366d6; text-decoration: none; }
+        .markdown-body a:hover { text-decoration: underline; }
+        .markdown-body strong { font-weight: 600; }
+        .markdown-body em { font-style: italic; }
 
-        .markdown-body h3 {
-            font-size: 1.25em;
-        }
-
-        .markdown-body h4 {
-            font-size: 1em;
-        }
-
-        .markdown-body h5 {
-            font-size: 0.875em;
-        }
-
-        .markdown-body h6 {
-            font-size: 0.85em;
-            color: #656d76;
-        }
-
-        /* 段落样式 */
-        .markdown-body p {
-            margin-top: 0;
-            margin-bottom: 16px;
-        }
-
-        /* 链接样式 */
-        .markdown-body a {
-            color: #0366d6;
-            text-decoration: none;
-        }
-
-        .markdown-body a:hover {
-            text-decoration: underline;
-        }
-
-        /* 粗体和斜体 */
-        .markdown-body strong {
-            font-weight: 600;
-        }
-
-        .markdown-body em {
-            font-style: italic;
-        }
-
-        /* 代码样式 - 行内 */
         .markdown-body code {
             font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
             font-size: 0.85em;
@@ -126,17 +82,22 @@
             border-radius: 3px;
         }
 
-        /* 代码块样式 */
         .markdown-body pre {
-            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-family: "SF Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
             font-size: 0.85em;
-            line-height: 1.5;
+            line-height: 1.45;
             background-color: #f6f8fa;
-            border-radius: 3px;
+            border-radius: 6px;
             padding: 16px;
             overflow: auto;
             margin-top: 0;
             margin-bottom: 16px;
+            white-space: pre;
+            word-wrap: normal;
+            word-break: normal;
+            tab-size: 4;
+            -webkit-font-feature-settings: "liga" 0, "calt" 0;
+            font-feature-settings: "liga" 0, "calt" 0;
         }
 
         .markdown-body pre code {
@@ -148,31 +109,20 @@
             font-size: 100%;
         }
 
-        /* 列表样式 */
-        .markdown-body ul,
-        .markdown-body ol {
+        .markdown-body ul, .markdown-body ol {
             margin-top: 0;
             margin-bottom: 16px;
             padding-left: 2em;
         }
 
-        .markdown-body ul ul,
-        .markdown-body ul ol,
-        .markdown-body ol ol,
-        .markdown-body ol ul {
+        .markdown-body ul ul, .markdown-body ul ol, .markdown-body ol ol, .markdown-body ol ul {
             margin-top: 0;
             margin-bottom: 0;
         }
 
-        .markdown-body li {
-            margin: 0.25em 0;
-        }
+        .markdown-body li { margin: 0.25em 0; }
+        .markdown-body li > p { margin-top: 16px; }
 
-        .markdown-body li > p {
-            margin-top: 16px;
-        }
-
-        /* 引用块样式 */
         .markdown-body blockquote {
             margin: 0 0 16px 0;
             padding: 0 1em;
@@ -180,98 +130,57 @@
             border-left: 0.25em solid #dfe2e5;
         }
 
-        .markdown-body blockquote > :first-child {
-            margin-top: 0;
-        }
+        .markdown-body blockquote > :first-child { margin-top: 0; }
+        .markdown-body blockquote > :last-child { margin-bottom: 0; }
 
-        .markdown-body blockquote > :last-child {
-            margin-bottom: 0;
-        }
-
-        /* 表格样式 */
         .markdown-body table {
             border-spacing: 0;
             border-collapse: collapse;
             margin-top: 0;
             margin-bottom: 16px;
             width: 100%;
-            overflow: auto;
-            display: block;
+            overflow-x: auto;
             font-size: 0.875em;
+            display: table;
+            table-layout: auto;
         }
+
+        .markdown-body table thead { display: table-header-group; }
+        .markdown-body table tbody { display: table-row-group; }
+        .markdown-body table tr { display: table-row; background-color: #ffffff; border-top: 1px solid #c6cbd1; }
+        .markdown-body table tr:nth-child(2n) { background-color: #f6f8fa; }
 
         .markdown-body table th {
+            display: table-cell;
             font-weight: 600;
             background-color: #f6f8fa;
-        }
-
-        .markdown-body table th,
-        .markdown-body table td {
             padding: 6px 13px;
             border: 1px solid #dfe2e5;
+            text-align: left;
+            white-space: nowrap;
         }
 
-        .markdown-body table tr {
-            background-color: #ffffff;
-            border-top: 1px solid #c6cbd1;
+        .markdown-body table td {
+            display: table-cell;
+            padding: 6px 13px;
+            border: 1px solid #dfe2e5;
+            text-align: left;
         }
 
-        .markdown-body table tr:nth-child(2n) {
-            background-color: #f6f8fa;
+        .markdown-body table td, .markdown-body table th {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
-        /* 水平分割线 */
-        .markdown-body hr {
-            height: 0.25em;
-            padding: 0;
-            margin: 24px 0;
-            background-color: #e1e4e8;
-            border: 0;
-        }
+        .markdown-body hr { height: 0.25em; padding: 0; margin: 24px 0; background-color: #e1e4e8; border: 0; }
+        .markdown-body img { max-width: 100%; box-sizing: content-box; background-color: #ffffff; }
+        .katex-display { margin: 16px 0; overflow-x: auto; overflow-y: hidden; }
 
-        /* 图片样式 */
-        .markdown-body img {
-            max-width: 100%;
-            box-sizing: content-box;
-            background-color: #ffffff;
-        }
+        .github-header { background-color: #f6f8fa; border-bottom: 1px solid #e1e4e8; padding: 16px 0; margin-bottom: 24px; }
+        .github-header-content { max-width: 980px; margin: 0 auto; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; }
+        .github-header-title { font-size: 14px; font-weight: 600; color: #24292e; }
+        .github-header-actions { display: flex; gap: 8px; }
 
-        /* 数学公式样式 */
-        .katex-display {
-            margin: 16px 0;
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-
-        /* 顶部导航 */
-        .github-header {
-            background-color: #f6f8fa;
-            border-bottom: 1px solid #e1e4e8;
-            padding: 16px 0;
-            margin-bottom: 24px;
-        }
-
-        .github-header-content {
-            max-width: 980px;
-            margin: 0 auto;
-            padding: 0 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .github-header-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #24292e;
-        }
-
-        .github-header-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        /* 按钮样式 */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -291,103 +200,37 @@
             transition: background-color 0.2s, border-color 0.2s;
         }
 
-        .btn:hover {
-            background-color: #f3f4f6;
-            border-color: rgba(27, 31, 35, 0.3);
-            text-decoration: none;
-        }
+        .btn:hover { background-color: #f3f4f6; border-color: rgba(27, 31, 35, 0.3); text-decoration: none; }
 
-        /* 加载动画 */
-        .loading {
-            text-align: center;
-            padding: 64px 16px;
-            color: #6a737d;
-        }
+        .loading { text-align: center; padding: 64px 16px; color: #6a737d; }
+        .spinner { width: 32px; height: 32px; border: 2px solid #e1e4e8; border-top-color: #0366d6; border-radius: 50%; animation: spinner 1s linear infinite; margin: 0 auto 16px; }
+        @keyframes spinner { to { transform: rotate(360deg); } }
+        .error-message { text-align: center; padding: 64px 16px; color: #cb2431; }
 
-        .spinner {
-            width: 32px;
-            height: 32px;
-            border: 2px solid #e1e4e8;
-            border-top-color: #0366d6;
-            border-radius: 50%;
-            animation: spinner 1s linear infinite;
-            margin: 0 auto 16px;
-        }
-
-        @keyframes spinner {
-            to { transform: rotate(360deg); }
-        }
-
-        /* 错误提示 */
-        .error-message {
-            text-align: center;
-            padding: 64px 16px;
-            color: #cb2431;
-        }
-
-        /* 响应式设计 */
         @media (max-width: 767px) {
-            .page-container {
-                padding: 16px 0;
-            }
-
-            .content {
-                padding: 0 16px;
-            }
-
-            .markdown-body h1 {
-                font-size: 1.8em;
-            }
-
-            .markdown-body h2 {
-                font-size: 1.5em;
-            }
-
-            .markdown-body h3 {
-                font-size: 1.25em;
-            }
+            .page-container { padding: 16px 0; }
+            .content { padding: 0 16px; }
+            .markdown-body h1 { font-size: 1.8em; }
+            .markdown-body h2 { font-size: 1.5em; }
+            .markdown-body h3 { font-size: 1.25em; }
+            .markdown-body table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         }
 
-        /* 打印样式 */
         @media print {
-            .github-header {
-                display: none;
-            }
-
-            .btn {
-                display: none;
-            }
+            .github-header { display: none; }
+            .btn { display: none; }
+            .markdown-body table { display: table; table-layout: fixed; }
         }
 
-        /* 选择文本样式 */
-        ::selection {
-            background-color: #0366d6;
-            color: #ffffff;
-        }
-
-        /* 滚动条样式 */
-        ::-webkit-scrollbar {
-            width: 12px;
-            height: 12px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 6px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 6px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
-        }
+        ::selection { background-color: #0366d6; color: #ffffff; }
+        ::-webkit-scrollbar { width: 12px; height: 12px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 6px; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 6px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body>
-    <!-- GitHub 风格顶部导航 -->
     <div class="github-header">
         <div class="github-header-content">
             <div class="github-header-title">001.md</div>
@@ -408,67 +251,143 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.0.0/dist/markdown-it.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script>
-        const md = window.markdownit({
-            html: true,
-            linkify: true,
-            typographer: true,
-            breaks: false,
-            highlight: function (str, lang) {
-                if (lang && hljs.getLanguage(lang)) {
-                    try {
-                        return hljs.highlight(str, { language: lang }).value;
-                    } catch (__) {}
-                }
-                return md.utils.escapeHtml(str);
-            }
-        });
+    (function() {
+        'use strict';
 
-        async function loadMarkdown() {
+        const LOAD_SEQUENCE = [
+            { id: 'markdown-it', src: 'https://cdn.jsdelivr.net/npm/markdown-it@14.0.0/dist/markdown-it.min.js', global: 'markdownit' },
+            { id: 'markdown-it-anchor', src: 'https://cdn.jsdelivr.net/npm/markdown-it-anchor@8.6.7/dist/markdownItAnchor.umd.min.js', global: 'markdownItAnchor' },
+            { id: 'katex', src: 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js', global: 'katex' },
+            { id: 'katex-render', src: 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js', global: 'renderMathInElement' },
+            { id: 'highlight.js', src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js', global: 'hljs' }
+        ];
+
+        const loaded = {};
+        const loadQueue = [];
+
+        function slugify(s) {
+            return encodeURIComponent(String(s).trim().toLowerCase().replace(/\s+/g, '-'));
+        }
+
+        async function loadScript(index) {
+            if (index >= LOAD_SEQUENCE.length) {
+                initMarkdown();
+                return;
+            }
+
+            const item = LOAD_SEQUENCE[index];
+            if (loaded[item.id]) {
+                await loadScript(index + 1);
+                return;
+            }
+
             try {
-                const response = await fetch('001.md');
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                await new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = item.src;
+                    script.integrity = item.integrity || '';
+                    script.crossOrigin = 'anonymous';
+                    script.onload = () => {
+                        loaded[item.id] = true;
+                        resolve();
+                    };
+                    script.onerror = () => reject(new Error(`Failed to load ${item.src}`));
+                    document.head.appendChild(script);
+                });
+            } catch (e) {
+                console.error('Script load error:', e);
+                document.getElementById('markdown-content').innerHTML = `
+                    <div class="error-message">
+                        <h2>⚠️ 加载失败</h2>
+                        <p>部分资源加载失败，请刷新重试。</p>
+                    </div>
+                `;
+                return;
+            }
+
+            await loadScript(index + 1);
+        }
+
+        function initMarkdown() {
+            const md = window.markdownit({
+                html: true,
+                linkify: true,
+                typographer: true,
+                breaks: false,
+                highlight: function (str, lang) {
+                    if (lang && hljs.getLanguage(lang)) {
+                        try {
+                            return hljs.highlight(str, { language: lang }).value;
+                        } catch (__) {}
+                    }
+                    return md.utils.escapeHtml(str);
                 }
+            });
+
+            // 检查 markdown-it-anchor 是否正确加载
+            if (typeof window.markdownItAnchor === 'function') {
+                md.use(window.markdownItAnchor, {
+                    level: [1, 2, 3, 4, 5, 6],
+                    slugify: slugify,
+                    permalink: false
+                });
+            } else {
+                console.warn('markdown-it-anchor 插件未加载，标题锚点功能不可用');
+            }
+
+            loadMarkdown(md);
+        }
+
+        async function loadMarkdown(md) {
+            const contentEl = document.getElementById('markdown-content');
+            
+            try {
+                const response = await fetch('001.md', { cache: 'force-cache' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                
                 const markdownText = await response.text();
+                const startTime = performance.now();
                 
                 const html = md.render(markdownText);
-                document.getElementById('markdown-content').innerHTML = html;
+                contentEl.innerHTML = html;
                 
-                renderMathInElement(document.getElementById('markdown-content'), {
-                    delimiters: [
-                        {left: '$$', right: '$$', display: true},
-                        {left: '$', right: '$', display: false}
-                    ],
-                    throwOnError: false,
-                    strict: false
-                });
-                
+                if (typeof renderMathInElement === 'function') {
+                    renderMathInElement(contentEl, {
+                        delimiters: [
+                            {left: '$$', right: '$$', display: true},
+                            {left: '$', right: '$', display: false}
+                        ],
+                        throwOnError: false,
+                        strict: false
+                    });
+                }
+
                 document.querySelectorAll('pre code').forEach((block) => {
                     hljs.highlightElement(block);
                 });
-                
+
+                const renderTime = (performance.now() - startTime).toFixed(2);
+                console.log(`Markdown渲染完成，耗时: ${renderTime}ms`);
+
             } catch (error) {
-                console.error('加载Markdown文件失败:', error);
-                document.getElementById('markdown-content').innerHTML = `
+                console.error('加载失败:', error);
+                contentEl.innerHTML = `
                     <div class="error-message">
                         <h2>❌ 加载失败</h2>
-                        <p>无法加载Markdown文件，请确保001.md文件存在。</p>
-                        <p style="font-size: 14px; color: #6a737d; margin-top: 16px;">错误信息: ${error.message}</p>
+                        <p>无法加载Markdown文件</p>
+                        <p style="font-size: 14px; color: #6a737d; margin-top: 16px;">${error.message}</p>
                     </div>
                 `;
             }
         }
 
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadMarkdown);
+            document.addEventListener('DOMContentLoaded', () => loadScript(0));
         } else {
-            loadMarkdown();
+            loadScript(0);
         }
+    })();
     </script>
 </body>
 </html>
