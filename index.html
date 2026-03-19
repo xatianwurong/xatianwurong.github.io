@@ -535,7 +535,7 @@
                 <div class="nav-divider"></div>
                 <div class="nav-section">
                     <h3 class="nav-section-title">学习导航</h3>
-                    <a href="001.md" class="nav-item" target="_blank"><i class="fa fa-cube"></i><span>计算机图形学</span></a>
+                    <a href="graphics.html" class="nav-item" target="_blank"><i class="fa fa-cube"></i><span>计算机图形学</span></a>
                 </div>
             </nav>
             <div class="sidebar-footer">
@@ -613,37 +613,6 @@
                             <a href="https://www.jisilu.cn" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-chart-line"></i></div><h3 class="card-title">集思录</h3><p class="card-desc">投资社区</p></a>
                         </div>
                     </div>
-
-                    <!-- 学习资源 -->
-                    <div id="learning">
-                        <div class="section-header"><div class="section-icon gradient-6"><i class="fa fa-graduation-cap"></i></div><h2 class="section-title">学习资源</h2></div>
-                        <div class="cards-grid">
-                            <a href="https://www.bilibili.com" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-video"></i></div><h3 class="card-title">Bilibili</h3><p class="card-desc">国内最大的视频学习平台</p></a>
-                            <a href="https://www.coursera.org" target="_blank" class="card"><div class="card-icon gradient-2"><i class="fa fa-university"></i></div><h3 class="card-title">Coursera</h3><p class="card-desc">全球顶级在线课程</p></a>
-                            <a href="https://www.edx.org" target="_blank" class="card"><div class="card-icon gradient-3"><i class="fa fa-graduation-cap"></i></div><h3 class="card-title">edX</h3><p class="card-desc">哈佛麻省理工在线课程</p></a>
-                            <a href="https://www.udemy.com" target="_blank" class="card"><div class="card-icon gradient-4"><i class="fa fa-book"></i></div><h3 class="card-title">Udemy</h3><p class="card-desc">实用技能在线学习</p></a>
-                            <a href="https://www.khanacademy.org" target="_blank" class="card"><div class="card-icon gradient-5"><i class="fa fa-lightbulb"></i></div><h3 class="card-title">可汗学院</h3><p class="card-desc">免费在线教育平台</p></a>
-                            <a href="https://www.zhihu.com" target="_blank" class="card"><div class="card-icon gradient-6"><i class="fa fa-question-circle"></i></div><h3 class="card-title">知乎</h3><p class="card-desc">高质量问答社区</p></a>
-                            <a href="https://github.com" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-github"></i></div><h3 class="card-title">GitHub</h3><p class="card-desc">全球最大的代码托管平台</p></a>
-                            <a href="https://stackoverflow.com" target="_blank" class="card"><div class="card-icon gradient-2"><i class="fa fa-stack-overflow"></i></div><h3 class="card-title">Stack Overflow</h3><p class="card-desc">程序员问答社区</p></a>
-                        </div>
-                    </div>
-
-                    <!-- 计算机图形学 -->
-                    <div id="graphics">
-                        <div class="section-header"><div class="section-icon gradient-1"><i class="fa fa-cube"></i></div><h2 class="section-title">计算机图形学</h2></div>
-                        <div class="cards-grid">
-                            <a href="https://www.opengl.org" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-cube"></i></div><h3 class="card-title">OpenGL</h3><p class="card-desc">跨平台图形API</p></a>
-                            <a href="https://www.khronos.org/vulkan/" target="_blank" class="card"><div class="card-icon gradient-2"><i class="fa fa-fire"></i></div><h3 class="card-title">Vulkan</h3><p class="card-desc">新一代图形API</p></a>
-                            <a href="https://www.directx.com" target="_blank" class="card"><div class="card-icon gradient-3"><i class="fa fa-windows"></i></div><h3 class="card-title">DirectX</h3><p class="card-desc">微软图形API</p></a>
-                            <a href="https://www.webgl.org" target="_blank" class="card"><div class="card-icon gradient-4"><i class="fa fa-globe"></i></div><h3 class="card-title">WebGL</h3><p class="card-desc">浏览器3D图形</p></a>
-                            <a href="https://www.shadertoy.com" target="_blank" class="card"><div class="card-icon gradient-5"><i class="fa fa-palette"></i></div><h3 class="card-title">Shadertoy</h3><p class="card-desc">着色器艺术社区</p></a>
-                            <a href="https://threejs.org" target="_blank" class="card"><div class="card-icon gradient-6"><i class="fa fa-cubes"></i></div><h3 class="card-title">Three.js</h3><p class="card-desc">Web 3D库</p></a>
-                            <a href="https://www.blender.org" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-circle"></i></div><h3 class="card-title">Blender</h3><p class="card-desc">开源3D创作套件</p></a>
-                            <a href="https://www.scratchapixel.com" target="_blank" class="card"><div class="card-icon gradient-2"><i class="fa fa-book-open"></i></div><h3 class="card-title">Scratchapixel</h3><p class="card-desc">图形学教程网站</p></a>
-                            <a href="https://developer.nvidia.com" target="_blank" class="card"><div class="card-icon gradient-3"><i class="fa fa-microchip"></i></div><h3 class="card-title">NVIDIA 开发者</h3><p class="card-desc">GPU图形开发资源</p></a>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -702,7 +671,7 @@
         function handleNavClick(e) {
             const href = this.getAttribute('href');
             
-            if (href.endsWith('.md')) {
+            if (href.endsWith('.html')) {
                 return;
             }
             
