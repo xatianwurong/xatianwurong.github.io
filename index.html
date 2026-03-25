@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>探索 - 浏览器主页</title>
+    <meta name="description" content="一个年轻、现代的浏览器主页：快速访问常用大模型、科技新闻、搜索引擎、AI 智能体与股票网站。">
+    <meta name="color-scheme" content="light dark">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Cdefs%3E%3CradialGradient%20id='g'%20cx='30%25'%20cy='20%25'%20r='80%25'%3E%3Cstop%20offset='0%25'%20stop-color='%236366f1'/%3E%3Cstop%20offset='60%25'%20stop-color='%238b5cf6'/%3E%3Cstop%20offset='100%25'%20stop-color='%23ec4899'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect%20width='100'%20height='100'%20rx='24'%20fill='url(%23g)'/%3E%3Cpath%20d='M50%2018%20c18%200%2034%2014%2034%2034%20S68%2096%2050%2096%2016%2082%2016%2052%2032%2018%2050%2018z'%20fill='rgba(255,255,255,0.18)'/%3E%3Cpath%20d='M58%2042%20L47%2053%20L44%2066%20L56%2061%20L71%2046%20Z'%20fill='%23ffffff'/%3E%3Ccircle%20cx='50'%20cy='50'%20r='26'%20stroke='rgba(255,255,255,0.65)'%20stroke-width='3'%20fill='none'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         /* ========================================
@@ -42,9 +45,9 @@
             
             /* 背景系统 */
             --bg-body: #f8fafc;
-            --bg-sidebar: #ffffff;
-            --bg-card: #ffffff;
-            --bg-card-hover: #f8fafc;
+            --bg-sidebar: rgba(255, 255, 255, 0.86);
+            --bg-card: rgba(255, 255, 255, 0.86);
+            --bg-card-hover: rgba(248, 250, 252, 0.94);
             
             /* 文本系统 */
             --text-primary: #0f172a;
@@ -95,6 +98,28 @@
             --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
             --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
             --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+            /* 侧边栏宽度（支持折叠） */
+            --sidebar-width: 260px;
+            --sidebar-width-collapsed: 88px;
+        }
+
+        /* ========================================
+           深色主题
+           ======================================== */
+        :root[data-theme="dark"] {
+            --bg-body: #0b1220;
+            --bg-sidebar: rgba(15, 23, 42, 0.72);
+            --bg-card: rgba(15, 23, 42, 0.70);
+            --bg-card-hover: rgba(17, 28, 51, 0.78);
+
+            --text-primary: #e5e7eb;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            --text-inverse: #0b1220;
+
+            --border-subtle: rgba(148, 163, 184, 0.22);
+            --border-default: rgba(148, 163, 184, 0.32);
         }
 
         /* ========================================
@@ -102,9 +127,46 @@
            ======================================== */
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
-        body { font-family: var(--font-sans); background: var(--bg-body); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
         a { text-decoration: none; color: inherit; }
         button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+            top: 8px;
+            padding: 10px 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            z-index: 1000;
+        }
+        .skip-link:focus { left: 12px; outline: 2px solid var(--primary-500); outline-offset: 2px; }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: -240px;
+            z-index: -1;
+            pointer-events: none;
+            background:
+                radial-gradient(1200px circle at 10% 10%, rgba(99, 102, 241, 0.18), transparent 48%),
+                radial-gradient(900px circle at 90% 20%, rgba(236, 72, 153, 0.16), transparent 52%),
+                radial-gradient(1000px circle at 50% 85%, rgba(14, 165, 233, 0.14), transparent 56%),
+                linear-gradient(rgba(148, 163, 184, 0.10) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(148, 163, 184, 0.10) 1px, transparent 1px);
+            background-size: auto, auto, auto, 56px 56px, 56px 56px;
+            background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+        }
 
         /* ========================================
            布局容器
@@ -114,8 +176,10 @@
         /* ========================================
            侧边栏导航
            ======================================== */
+
+
         .sidebar { 
-            width: 260px; 
+            width: var(--sidebar-width); 
             background: var(--bg-sidebar); 
             border-right: 1px solid var(--border-subtle); 
             display: flex; 
@@ -126,11 +190,12 @@
             bottom: 0; 
             z-index: 100;
             box-shadow: var(--shadow-sm);
+            backdrop-filter: blur(16px);
         }
         .sidebar-header { 
             padding: var(--space-8) var(--space-6); 
             border-bottom: 1px solid var(--border-subtle);
-            background: linear-gradient(180deg, var(--gray-50) 0%, var(--bg-sidebar) 100%);
+            background: linear-gradient(180deg, var(--bg-body) 0%, var(--bg-sidebar) 100%);
         }
         .sidebar-logo { 
             font-size: 1.5rem; 
@@ -203,7 +268,7 @@
             transition: transform var(--transition-fast);
         }
         .nav-item:hover { 
-            background: var(--gray-100); 
+            background: var(--bg-card-hover); 
             color: var(--text-primary);
             transform: translateX(2px);
         }
@@ -230,7 +295,13 @@
         .sidebar-footer { 
             padding: var(--space-5) var(--space-6); 
             border-top: 1px solid var(--border-subtle);
-            background: var(--gray-50);
+            background: var(--bg-body);
+        }
+        .sidebar-footer-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-4);
         }
         .user-info { 
             display: flex; 
@@ -241,6 +312,8 @@
             background: var(--bg-card);
             box-shadow: var(--shadow-xs);
             border: 1px solid var(--border-subtle);
+            flex: 1;
+            min-width: 0;
         }
         .user-avatar { 
             width: 40px; 
@@ -272,28 +345,217 @@
             animation: pulse 2s ease-in-out infinite;
         }
 
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-card);
+            box-shadow: var(--shadow-xs);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+            flex-shrink: 0;
+        }
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-200);
+            background: var(--bg-card-hover);
+        }
+
         /* ========================================
            主内容区
            ======================================== */
         .main-content { 
             flex: 1; 
-            margin-left: 260px; 
+            margin-left: var(--sidebar-width); 
             display: flex; 
             flex-direction: column; 
             min-height: 100vh; 
         }
         .content-body { 
             flex: 1; 
-            padding: var(--space-12) var(--space-12); 
+            padding: var(--space-10) var(--space-12) var(--space-12);
             max-width: 1800px; 
             margin: 0 auto; 
             width: 100%; 
+            box-sizing: border-box;
+        }
+
+        .sidebar-toggle {
+            position: fixed;
+            left: calc(var(--sidebar-width) - 58px);
+            top: 16px;
+            z-index: 1000;
+            width: 46px;
+            height: 46px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-card);
+            box-shadow: var(--shadow-sm);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(14px);
+        }
+
+
+
+        .hero {
+            display: block;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-card);
+            padding: var(--space-6);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: var(--space-8);
+            backdrop-filter: blur(16px);
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background:
+                radial-gradient(600px circle at 20% 15%, rgba(99, 102, 241, 0.25), transparent 55%),
+                radial-gradient(520px circle at 90% 25%, rgba(236, 72, 153, 0.20), transparent 50%),
+                radial-gradient(560px circle at 45% 90%, rgba(14, 165, 233, 0.18), transparent 55%);
+            opacity: 0.9;
+            pointer-events: none;
+        }
+        .hero > * { position: relative; z-index: 1; }
+
+        .hero-left {
+            flex: 1;
+            min-width: 260px;
+        }
+        .hero-right {
+            width: min(560px, 100%);
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: 9999px;
+            background: rgba(99, 102, 241, 0.10);
+            border: 1px solid rgba(99, 102, 241, 0.22);
+            color: var(--primary-700);
+            font-size: 0.9rem;
+            font-weight: 800;
+            margin-bottom: var(--space-2);
+        }
+        :root[data-theme="dark"] .hero-badge {
+            background: rgba(99, 102, 241, 0.18);
+            border-color: rgba(99, 102, 241, 0.35);
+            color: #c7d2fe;
+        }
+
+        .hero-title {
+            font-size: clamp(1.35rem, 2.1vw, 1.85rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: var(--space-2);
+        }
+        .hero-subtitle {
+            color: var(--text-tertiary);
+            max-width: 52ch;
+            margin-bottom: var(--space-4);
+            font-size: 1rem;
+        }
+
+        .hero-search {
+            display: grid;
+            grid-template-columns: 36px 1fr auto;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 16px;
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-body);
+            max-width: 760px;
+            margin: 0 auto;
+            margin-bottom: var(--space-8);
+        }
+        :root[data-theme="dark"] .hero-search { background: rgba(2, 6, 23, 0.35); }
+        .hero-search i { color: var(--text-tertiary); font-size: 1.0rem; }
+        .hero-search input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: var(--text-primary);
+            font-size: 0.98rem;
+            outline: none;
+        }
+        .hero-search input::placeholder { color: var(--text-tertiary); }
+        .hero-clear {
+            padding: 8px 12px;
+            border-radius: 14px;
+            background: rgba(99, 102, 241, 0.10);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            color: var(--primary-700);
+            font-weight: 800;
+            transition: transform var(--transition-fast), background var(--transition-fast);
+            white-space: nowrap;
+        }
+        :root[data-theme="dark"] .hero-clear { color: #c7d2fe; }
+        .hero-clear:hover { transform: translateY(-1px); background: rgba(99, 102, 241, 0.16); }
+
+        .hero-stats {
+            display: flex;
+            gap: var(--space-4);
+            flex-wrap: wrap;
+            margin-top: var(--space-3);
+            color: var(--text-tertiary);
+            font-weight: 750;
+            font-size: 0.9rem;
+        }
+        .hero-stat {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.3);
+        }
+        :root[data-theme="dark"] .hero-stat { background: rgba(148, 163, 184, 0.06); }
+
+        .hero-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: var(--space-4);
+        }
+        .hero-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            border-radius: 9999px;
+            border: 1px solid var(--border-subtle);
+            background: rgba(255, 255, 255, 0.25);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 780;
+            transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+            user-select: none;
+        }
+        :root[data-theme="dark"] .hero-chip { background: rgba(148, 163, 184, 0.06); }
+        .hero-chip:hover {
+            transform: translateY(-1px);
+            border-color: var(--primary-200);
+            background: rgba(99, 102, 241, 0.08);
+            color: var(--text-primary);
         }
 
         /* ========================================
            内容区域
            ======================================== */
-        .content-section > div { margin-bottom: 5rem; }
+        .content-section > div { margin-bottom: 4rem; }
         .content-section > div:last-child { margin-bottom: 0; }
         
         .section-header { 
@@ -316,6 +578,7 @@
             box-shadow: var(--shadow-md);
             flex-shrink: 0;
         }
+        .section-icon i { line-height: 1; }
         .section-icon.gradient-1 { background: var(--gradient-indigo); }
         .section-icon.gradient-2 { background: var(--gradient-pink); }
         .section-icon.gradient-3 { background: var(--gradient-sky); }
@@ -335,7 +598,7 @@
            ======================================== */
         .cards-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
             gap: var(--space-6); 
             will-change: transform;
         }
@@ -353,6 +616,7 @@
             position: relative;
             overflow: hidden;
             will-change: transform, box-shadow;
+            backdrop-filter: blur(16px);
         }
         .card::before {
             content: '';
@@ -366,17 +630,20 @@
             transition: transform var(--transition-base);
         }
         .card:hover { 
-            transform: translateY(-6px); 
+            transform: translateY(-8px); 
             box-shadow: var(--shadow-card-hover); 
             border-color: var(--primary-200);
         }
         .card:hover::before {
             transform: scaleX(1);
         }
+
         .card:focus {
             outline: 2px solid var(--primary-500);
             outline-offset: 2px;
         }
+
+        .card.is-hidden { display: none; }
         .card-icon { 
             width: 64px; 
             height: 64px; 
@@ -390,6 +657,7 @@
             transition: all var(--transition-bounce);
             box-shadow: var(--shadow-md);
             position: relative;
+            overflow: hidden;
         }
         .card:hover .card-icon { 
             transform: scale(1.1) rotate(-3deg);
@@ -401,6 +669,8 @@
         .card-icon.gradient-4 { background: var(--gradient-emerald); }
         .card-icon.gradient-5 { background: var(--gradient-amber); }
         .card-icon.gradient-6 { background: var(--gradient-violet); }
+
+        .card-icon i { line-height: 1; display: block; }
         
         .card-title { 
             font-size: 1rem; 
@@ -480,7 +750,7 @@
             letter-spacing: -0.03em;
             font-family: var(--font-mono);
             padding: var(--space-2) var(--space-4);
-            background: var(--gray-50);
+            background: var(--bg-body);
             border-radius: var(--radius-lg);
             border: 1px solid var(--border-subtle);
         }
@@ -489,9 +759,8 @@
            响应式设计
            ======================================== */
         @media (max-width: 1024px) {
-            .sidebar { transform: translateX(-100%); }
-            .sidebar.open { transform: translateX(0); }
-            .main-content { margin-left: 0; }
+            .sidebar { width: 200px; }
+            .main-content { margin-left: 200px; }
             .content-body { padding: var(--space-6); }
         }
         @media (max-width: 768px) {
@@ -499,6 +768,7 @@
             .greeting-content { flex-direction: column; text-align: center; }
             .greeting-time { font-size: 1.75rem; }
             .section-title { font-size: 1.25rem; }
+            .hero { padding: var(--space-6); }
         }
 
         /* ========================================
@@ -514,10 +784,17 @@
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            * { animation: none !important; transition: none !important; }
+        }
     </style>
 </head>
 <body>
+    <a href="#main" class="skip-link">跳到内容</a>
     <div class="app-container">
+
         <!-- ==================== 侧边栏导航 ==================== -->
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -526,7 +803,7 @@
             <nav class="sidebar-nav">
                 <div class="nav-section">
                     <h3 class="nav-section-title">网站导航</h3>
-                    <a href="#home" class="nav-item active"><i class="fa fa-robot"></i><span>常用大模型</span></a>
+                    <a href="#home" class="nav-item active"><i class="fa fa-brain"></i><span>常用大模型</span></a>
                     <a href="#news" class="nav-item"><i class="fa fa-newspaper"></i><span>科技新闻</span></a>
                     <a href="#search" class="nav-item"><i class="fa fa-search"></i><span>搜索引擎</span></a>
                     <a href="#ai" class="nav-item"><i class="fa fa-robot"></i><span>AI 智能体</span></a>
@@ -535,36 +812,48 @@
                 <div class="nav-divider"></div>
                 <div class="nav-section">
                     <h3 class="nav-section-title">学习导航</h3>
-                    <a href="graphics.html" class="nav-item" target="_blank"><i class="fa fa-cube"></i><span>计算机图形学</span></a>
+                    <a href="graphics.html" class="nav-item" target="_blank"><i class="fa fa-laptop-code"></i><span>计算机图形学</span></a>
                 </div>
             </nav>
             <div class="sidebar-footer">
-                <div class="user-info">
-                    <img src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff" alt="用户头像" class="user-avatar">
-                    <div class="user-details">
-                        <div class="user-name">用户</div>
-                        <div class="user-status">在线</div>
+                <div class="sidebar-footer-row">
+                    <div class="user-info">
+                        <img src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff" alt="用户头像" class="user-avatar">
+                        <div class="user-details">
+                            <div class="user-name">用户</div>
+                            <div class="user-status">在线</div>
+                        </div>
                     </div>
+                    <button class="theme-toggle" id="themeToggle" type="button" aria-label="切换深色模式">
+                        <i class="fa fa-moon" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
         </aside>
 
         <!-- ==================== 主内容区 ==================== -->
-        <main class="main-content">
+        <main id="main" class="main-content">
             <div class="content-body">
+                <div class="hero-search" role="search">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input id="searchInput" type="search" inputmode="search" placeholder="搜索：模型 / 新闻 / 智能体 / 股..." autocomplete="off">
+                    <button class="hero-clear" id="clearSearch" type="button">清空</button>
+                </div>
+
                 <div class="content-section">
                     <!-- 常用大模型 -->
                     <div id="home">
-                        <div class="section-header"><div class="section-icon gradient-1"><i class="fa fa-robot"></i></div><h2 class="section-title">常用大模型</h2></div>
+                        <div class="section-header"><div class="section-icon gradient-1"><i class="fa fa-brain"></i></div><h2 class="section-title">常用大模型</h2></div>
                         <div class="cards-grid">
-                            <a href="https://gemini.google.com" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-robot"></i></div><h3 class="card-title">gemini</h3><p class="card-desc">Google 的大模型</p></a>
-                            <a href="https://chat.openai.com" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-lightbulb"></i></div><h3 class="card-title">ChatGPT5</h3><p class="card-desc">OpenAI 的大模型</p></a>
-                            <a href="https://grok.x.ai" target="_blank" class="card"><div class="card-icon gradient-2"><i class="fa fa-brain"></i></div><h3 class="card-title">Grok</h3><p class="card-desc">埃隆马斯克的 AI</p></a>
-                            <a href="https://tongyi.aliyun.com" target="_blank" class="card"><div class="card-icon gradient-3"><i class="fa fa-rocket"></i></div><h3 class="card-title">千问 (Qwen)</h3><p class="card-desc">阿里巴巴出品</p></a>
-                            <a href="https://www.deepseek.com" target="_blank" class="card"><div class="card-icon gradient-4"><i class="fa fa-microchip"></i></div><h3 class="card-title">DeepSeek</h3><p class="card-desc">国产 AI 模型黑马</p></a>
-                            <a href="https://www.doubao.com" target="_blank" class="card"><div class="card-icon gradient-5"><i class="fa fa-comment-dots"></i></div><h3 class="card-title">豆包</h3><p class="card-desc">字节跳动出品</p></a>
-                            <a href="https://kimi.moonshot.cn" target="_blank" class="card"><div class="card-icon gradient-6"><i class="fa fa-moon"></i></div><h3 class="card-title">Kimi</h3><p class="card-desc">月之暗面</p></a>
-                            <a href="https://metaso.cn" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-book-open"></i></div><h3 class="card-title">秘塔 AI</h3><p class="card-desc">国产 AI 模型</p></a>
+                            <a href="https://gemini.google.com" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-lightbulb"></i></div><h3 class="card-title">gemini</h3><p class="card-desc">Google 的大模型</p></a>
+                            <a href="https://chat.openai.com" target="_blank" class="card"><div class="card-icon gradient-2"><i class="fa fa-comments"></i></div><h3 class="card-title">ChatGPT5</h3><p class="card-desc">OpenAI 的大模型</p></a>
+                            <a href="https://grok.x.ai" target="_blank" class="card"><div class="card-icon gradient-3"><i class="fa fa-wand-magic-sparkles"></i></div><h3 class="card-title">Grok</h3><p class="card-desc">埃隆马斯克的 AI</p></a>
+                            <a href="https://tongyi.aliyun.com" target="_blank" class="card"><div class="card-icon gradient-4"><i class="fa fa-cube"></i></div><h3 class="card-title">千问 (Qwen)</h3><p class="card-desc">阿里巴巴出品</p></a>
+                            <a href="https://www.deepseek.com" target="_blank" class="card"><div class="card-icon gradient-5"><i class="fa fa-chart-line"></i></div><h3 class="card-title">DeepSeek</h3><p class="card-desc">国产 AI 模型黑马</p></a>
+                            <a href="https://www.doubao.com" target="_blank" class="card"><div class="card-icon gradient-6"><i class="fa fa-face-smile"></i></div><h3 class="card-title">豆包</h3><p class="card-desc">字节跳动出品</p></a>
+                            <a href="https://kimi.moonshot.cn" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-moon"></i></div><h3 class="card-title">Kimi</h3><p class="card-desc">月之暗面</p></a>
+                            <a href="https://metaso.cn" target="_blank" class="card"><div class="card-icon gradient-2"><i class="fa fa-shield"></i></div><h3 class="card-title">秘塔 AI</h3><p class="card-desc">国产 AI 模型</p></a>
+                            <a href="https://minimax.chat" target="_blank" class="card"><div class="card-icon gradient-3"><i class="fa fa-robot"></i></div><h3 class="card-title">Minimax</h3><p class="card-desc">国产大模型</p></a>
                         </div>
                     </div>
 
@@ -572,11 +861,11 @@
                     <div id="news">
                         <div class="section-header"><div class="section-icon gradient-2"><i class="fa fa-newspaper"></i></div><h2 class="section-title">科技新闻</h2></div>
                         <div class="cards-grid">
-                            <a href="https://www.cnblogs.com" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-newspaper"></i></div><h3 class="card-title">科技新闻 - 博客园</h3><p class="card-desc">国产内新闻 - 中文</p></a>
+                            <a href="https://www.cnblogs.com" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-blog"></i></div><h3 class="card-title">科技新闻 - 博客园</h3><p class="card-desc">国产内新闻 - 中文</p></a>
                             <a href="https://news.ycombinator.com" target="_blank" class="card"><div class="card-icon gradient-2"><i class="fa fa-code"></i></div><h3 class="card-title">Hacker News</h3><p class="card-desc">极客头条 - 英文</p></a>
                             <a href="https://36kr.com" target="_blank" class="card"><div class="card-icon gradient-3"><i class="fa fa-newspaper"></i></div><h3 class="card-title">36kr</h3><p class="card-desc">36kr 国内新闻</p></a>
-                            <a href="https://www.v2ex.com" target="_blank" class="card"><div class="card-icon gradient-4"><i class="fa fa-comments"></i></div><h3 class="card-title">V2EX</h3><p class="card-desc">创意工作者社区</p></a>
-                            <a href="https://tech.163.com" target="_blank" class="card"><div class="card-icon gradient-5"><i class="fa fa-newspaper"></i></div><h3 class="card-title">网易科技</h3><p class="card-desc">tech.163.com</p></a>
+                            <a href="https://www.v2ex.com" target="_blank" class="card"><div class="card-icon gradient-4"><i class="fa fa-users"></i></div><h3 class="card-title">V2EX</h3><p class="card-desc">创意工作者社区</p></a>
+                            <a href="https://tech.163.com" target="_blank" class="card"><div class="card-icon gradient-5"><i class="fa fa-globe"></i></div><h3 class="card-title">网易科技</h3><p class="card-desc">tech.163.com</p></a>
                         </div>
                     </div>
 
@@ -586,8 +875,8 @@
                         <div class="cards-grid">
                             <a href="https://www.bing.com" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-search"></i></div><h3 class="card-title">必应</h3><p class="card-desc">不用翻墙就能用</p></a>
                             <a href="https://www.google.com" target="_blank" class="card"><div class="card-icon gradient-2"><i class="fa fa-google"></i></div><h3 class="card-title">Google</h3><p class="card-desc">谷歌</p></a>
-                            <a href="https://yandex.com" target="_blank" class="card"><div class="card-icon gradient-3"><i class="fa fa-search"></i></div><h3 class="card-title">Yandex</h3><p class="card-desc">俄罗斯的搜索引擎</p></a>
-                            <a href="https://www.sogou.com" target="_blank" class="card"><div class="card-icon gradient-4"><i class="fa fa-search"></i></div><h3 class="card-title">搜狗搜索</h3><p class="card-desc">搜公众号的</p></a>
+                            <a href="https://yandex.com" target="_blank" class="card"><div class="card-icon gradient-3"><i class="fa fa-globe"></i></div><h3 class="card-title">Yandex</h3><p class="card-desc">俄罗斯的搜索引擎</p></a>
+                            <a href="https://www.sogou.com" target="_blank" class="card"><div class="card-icon gradient-4"><i class="fa fa-magnifying-glass"></i></div><h3 class="card-title">搜狗搜索</h3><p class="card-desc">搜公众号的</p></a>
                         </div>
                     </div>
 
@@ -595,8 +884,8 @@
                     <div id="ai">
                         <div class="section-header"><div class="section-icon gradient-4"><i class="fa fa-robot"></i></div><h2 class="section-title">AI 智能体</h2></div>
                         <div class="cards-grid">
-                            <a href="https://www.kouzispace.com" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-puzzle-piece"></i></div><h3 class="card-title">扣子空间</h3><p class="card-desc">通用智能体</p></a>
-                            <a href="https://www.manus.ai" target="_blank" class="card"><div class="card-icon gradient-2"><i class="fa fa-user-robot"></i></div><h3 class="card-title">Manus</h3><p class="card-desc">通用智能体</p></a>
+                            <a href="https://www.kouzispace.com" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-brain"></i></div><h3 class="card-title">扣子空间</h3><p class="card-desc">通用智能体</p></a>
+                            <a href="https://www.manus.ai" target="_blank" class="card"><div class="card-icon gradient-2"><i class="fa fa-robot"></i></div><h3 class="card-title">Manus</h3><p class="card-desc">通用智能体</p></a>
                         </div>
                     </div>
 
@@ -605,12 +894,12 @@
                         <div class="section-header"><div class="section-icon gradient-5"><i class="fa fa-chart-line"></i></div><h2 class="section-title">股票网站</h2></div>
                         <div class="cards-grid">
                             <a href="https://www.10jqka.com.cn" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-chart-line"></i></div><h3 class="card-title">同花顺</h3><p class="card-desc">国内领先的炒股软件</p></a>
-                            <a href="https://www.eastmoney.com" target="_blank" class="card"><div class="card-icon gradient-2"><i class="fa fa-coins"></i></div><h3 class="card-title">东方财富</h3><p class="card-desc">财经门户第一股</p></a>
-                            <a href="https://xueqiu.com" target="_blank" class="card"><div class="card-icon gradient-3"><i class="fa fa-snowflake"></i></div><h3 class="card-title">雪球</h3><p class="card-desc">聪明的投资者都在这里</p></a>
-                            <a href="https://stockapp.finance.qq.com" target="_blank" class="card"><div class="card-icon gradient-4"><i class="fa fa-star"></i></div><h3 class="card-title">自选股</h3><p class="card-desc">腾讯自选股</p></a>
+                            <a href="https://www.eastmoney.com" target="_blank" class="card"><div class="card-icon gradient-2"><i class="fa fa-building"></i></div><h3 class="card-title">东方财富</h3><p class="card-desc">财经门户第一股</p></a>
+                            <a href="https://xueqiu.com" target="_blank" class="card"><div class="card-icon gradient-3"><i class="fa fa-comments"></i></div><h3 class="card-title">雪球</h3><p class="card-desc">聪明的投资者都在这里</p></a>
+                            <a href="https://stockapp.finance.qq.com" target="_blank" class="card"><div class="card-icon gradient-4"><i class="fa fa-bookmark"></i></div><h3 class="card-title">自选股</h3><p class="card-desc">腾讯自选股</p></a>
                             <a href="https://finance.sina.com.cn" target="_blank" class="card"><div class="card-icon gradient-5"><i class="fa fa-newspaper"></i></div><h3 class="card-title">新浪财经</h3><p class="card-desc">财经新闻门户</p></a>
                             <a href="https://wallstreetcn.com" target="_blank" class="card"><div class="card-icon gradient-6"><i class="fa fa-globe"></i></div><h3 class="card-title">华尔街见闻</h3><p class="card-desc">全球财经资讯</p></a>
-                            <a href="https://www.jisilu.cn" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-chart-line"></i></div><h3 class="card-title">集思录</h3><p class="card-desc">投资社区</p></a>
+                            <a href="https://www.jisilu.cn" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-calculator"></i></div><h3 class="card-title">集思录</h3><p class="card-desc">投资社区</p></a>
                         </div>
                     </div>
                 </div>
@@ -635,16 +924,24 @@
             currentTime: document.getElementById('currentTime'),
             greetingText: document.getElementById('greetingText'),
             greetingDate: document.getElementById('greetingDate'),
-            navItems: document.querySelectorAll('.nav-item')
+            navItems: document.querySelectorAll('.nav-item'),
+
+            themeToggle: document.getElementById('themeToggle'),
+
+            searchInput: document.getElementById('searchInput'),
+            clearSearch: document.getElementById('clearSearch'),
+            heroChips: document.querySelectorAll('.hero-chip'),
+            filteredCount: document.getElementById('filteredCount'),
+            totalCount: document.getElementById('totalCount')
         };
 
         function updateTime() {
             const now = new Date();
-            DOM.currentTime.textContent = now.toLocaleTimeString('zh-CN', { 
-                hour: '2-digit', 
-                minute: '2-digit', 
+            DOM.currentTime.textContent = now.toLocaleTimeString('zh-CN', {
+                hour: '2-digit',
+                minute: '2-digit',
                 second: '2-digit',
-                hour12: false 
+                hour12: false
             });
         }
 
@@ -659,34 +956,191 @@
 
         function updateDate() {
             const now = new Date();
-            const dateStr = now.toLocaleDateString('zh-CN', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric', 
-                weekday: 'long' 
+            const dateStr = now.toLocaleDateString('zh-CN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                weekday: 'long'
             });
             DOM.greetingDate.textContent = '今天是 ' + dateStr;
         }
 
+        function ensureExternalLinksSecurity() {
+            document.querySelectorAll('a[target="_blank"]').forEach((a) => {
+                const rel = a.getAttribute('rel') || '';
+                const need = ['noopener', 'noreferrer'];
+                need.forEach((token) => {
+                    if (!rel.includes(token)) {
+                        a.setAttribute('rel', (rel ? rel + ' ' : '') + token);
+                    }
+                });
+            });
+        }
+
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            try { localStorage.setItem('theme', theme); } catch (e) {}
+
+            if (!DOM.themeToggle) return;
+            const icon = DOM.themeToggle.querySelector('i');
+            if (!icon) return;
+            icon.className = theme === 'dark' ? 'fa fa-sun' : 'fa fa-moon';
+        }
+
+        function initTheme() {
+            let theme = 'light';
+            try {
+                const saved = localStorage.getItem('theme');
+                if (saved === 'dark' || saved === 'light') theme = saved;
+            } catch (e) {}
+
+            if (theme === 'light') {
+                const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (prefersDark) theme = 'dark';
+            }
+            setTheme(theme);
+
+            if (DOM.themeToggle) {
+                DOM.themeToggle.addEventListener('click', () => {
+                    const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+                    setTheme(current === 'dark' ? 'light' : 'dark');
+                });
+            }
+        }
+
+
+
+        function applySearch(query) {
+            const q = String(query || '').trim().toLowerCase();
+            const cards = Array.from(document.querySelectorAll('.card'));
+            let visible = 0;
+
+            cards.forEach((card) => {
+                const search = card.dataset.search || '';
+                const show = !q || search.includes(q);
+                card.classList.toggle('is-hidden', !show);
+                if (show) visible += 1;
+            });
+
+            if (DOM.filteredCount) DOM.filteredCount.textContent = visible;
+        }
+
+        function initSearch() {
+            const cards = Array.from(document.querySelectorAll('.card'));
+            if (!cards.length) return;
+
+            cards.forEach((card) => {
+                const titleEl = card.querySelector('.card-title');
+                const descEl = card.querySelector('.card-desc');
+                const title = titleEl ? titleEl.textContent : '';
+                const desc = descEl ? descEl.textContent : '';
+                const sectionEl = card.closest('div[id]');
+                const sectionTitleEl = sectionEl ? sectionEl.querySelector('.section-title') : null;
+                const sectionTitle = sectionTitleEl ? sectionTitleEl.textContent : '';
+                const sectionId = sectionEl ? sectionEl.id : '';
+
+                // 将“分组标题”也纳入搜索文本，确保 chips/关键词能命中整块区域
+                card.dataset.search = (sectionTitle + ' ' + sectionId + ' ' + title + ' ' + desc).toLowerCase();
+            });
+
+            if (DOM.totalCount) DOM.totalCount.textContent = cards.length;
+            if (DOM.filteredCount) DOM.filteredCount.textContent = cards.length;
+
+            if (!DOM.searchInput || !DOM.clearSearch) return;
+
+            DOM.searchInput.addEventListener('input', () => {
+                applySearch(DOM.searchInput.value);
+            });
+
+            DOM.clearSearch.addEventListener('click', () => {
+                DOM.searchInput.value = '';
+                applySearch('');
+                DOM.searchInput.focus();
+            });
+
+            if (DOM.heroChips && DOM.heroChips.length) {
+                DOM.heroChips.forEach((chip) => {
+                    chip.addEventListener('click', () => {
+                        const q = chip.getAttribute('data-q') || '';
+                        const targetSel = chip.getAttribute('data-target') || '';
+                        if (DOM.searchInput) {
+                            DOM.searchInput.value = q;
+                            applySearch(q);
+                            DOM.searchInput.focus();
+                        }
+                        if (targetSel) {
+                            const el = document.querySelector(targetSel);
+                            if (el) {
+                                const offset = 40;
+                                const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+                                window.scrollTo({ top, behavior: 'smooth' });
+                            }
+                        }
+
+                        if (window.matchMedia && window.matchMedia('(max-width: 1024px)').matches && DOM.sidebar) {
+                            DOM.sidebar.classList.remove('open');
+                        }
+                    });
+                });
+            }
+        }
+
         function handleNavClick(e) {
             const href = this.getAttribute('href');
-            
+
             if (href.endsWith('.html')) {
                 return;
             }
-            
+
             e.preventDefault();
             const targetId = href.substring(1);
             const target = document.getElementById(targetId);
-            
+
             if (target) {
                 DOM.navItems.forEach(item => item.classList.remove('active'));
                 this.classList.add('active');
-                
+
                 const offset = 40;
                 const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
                 window.scrollTo({ top: targetPosition, behavior: 'smooth' });
             }
+
+            // 移动端关闭侧边栏
+            if (window.matchMedia && window.matchMedia('(max-width: 1024px)').matches && DOM.sidebar) {
+                DOM.sidebar.classList.remove('open');
+            }
+        }
+
+        function initActiveNavByScroll() {
+            const navItems = Array.from(DOM.navItems || []).filter(a => (a.getAttribute('href') || '').startsWith('#'));
+            if (!navItems.length) return;
+
+            const sectionMap = navItems
+                .map((a) => a.getAttribute('href').slice(1))
+                .filter(Boolean)
+                .map((id) => document.getElementById(id))
+                .filter(Boolean);
+
+            if (!sectionMap.length) return;
+
+            const observer = new IntersectionObserver((entries) => {
+                const visible = entries
+                    .filter((e) => e.isIntersecting)
+                    .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+                if (!visible) return;
+                const id = visible.target.id;
+                const active = navItems.find((a) => a.getAttribute('href') === '#' + id);
+                if (!active) return;
+
+                DOM.navItems.forEach(item => item.classList.remove('active'));
+                active.classList.add('active');
+            }, {
+                threshold: [0.25, 0.4, 0.55],
+                rootMargin: '-10% 0px -70% 0px'
+            });
+
+            sectionMap.forEach((sec) => observer.observe(sec));
         }
 
         function init() {
@@ -694,6 +1148,13 @@
             updateGreeting();
             updateDate();
             setInterval(updateTime, 1000);
+
+            ensureExternalLinksSecurity();
+            initTheme();
+
+            initSearch();
+            initActiveNavByScroll();
+
             DOM.navItems.forEach(item => {
                 item.addEventListener('click', handleNavClick);
             });
