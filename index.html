@@ -1085,32 +1085,6 @@
             }
         }
 
-        function handleNavClick(e) {
-            const href = this.getAttribute('href');
-
-            if (href.endsWith('.html')) {
-                return;
-            }
-
-            e.preventDefault();
-            const targetId = href.substring(1);
-            const target = document.getElementById(targetId);
-
-            if (target) {
-                DOM.navItems.forEach(item => item.classList.remove('active'));
-                this.classList.add('active');
-
-                const offset = 40;
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
-                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
-            }
-
-            // 移动端关闭侧边栏
-            if (window.matchMedia && window.matchMedia('(max-width: 1024px)').matches && DOM.sidebar) {
-                DOM.sidebar.classList.remove('open');
-            }
-        }
-
         function initActiveNavByScroll() {
             const navItems = Array.from(DOM.navItems || []).filter(a => (a.getAttribute('href') || '').startsWith('#'));
             if (!navItems.length) return;
@@ -1154,10 +1128,6 @@
 
             initSearch();
             initActiveNavByScroll();
-
-            DOM.navItems.forEach(item => {
-                item.addEventListener('click', handleNavClick);
-            });
         }
 
         if (document.readyState === 'loading') {
