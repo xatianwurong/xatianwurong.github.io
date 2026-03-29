@@ -99,9 +99,8 @@
             --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
             --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
-            /* 侧边栏宽度（支持折叠） */
+            /* 侧边栏宽度 */
             --sidebar-width: 260px;
-            --sidebar-width-collapsed: 88px;
         }
 
         /* ========================================
@@ -383,22 +382,7 @@
             box-sizing: border-box;
         }
 
-        .sidebar-toggle {
-            position: fixed;
-            left: calc(var(--sidebar-width) - 58px);
-            top: 16px;
-            z-index: 1000;
-            width: 46px;
-            height: 46px;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-subtle);
-            background: var(--bg-card);
-            box-shadow: var(--shadow-sm);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(14px);
-        }
+
 
 
 
@@ -854,6 +838,7 @@
                             <a href="https://kimi.moonshot.cn" target="_blank" class="card"><div class="card-icon gradient-1"><i class="fa fa-moon"></i></div><h3 class="card-title">Kimi</h3><p class="card-desc">月之暗面</p></a>
                             <a href="https://metaso.cn" target="_blank" class="card"><div class="card-icon gradient-2"><i class="fa fa-shield"></i></div><h3 class="card-title">秘塔 AI</h3><p class="card-desc">国产 AI 模型</p></a>
                             <a href="https://agent.minimaxi.com" target="_blank" class="card"><div class="card-icon gradient-3"><i class="fa fa-robot"></i></div><h3 class="card-title">Minimax</h3><p class="card-desc">国产大模型</p></a>
+                            <a href="https://chat.z.ai" target="_blank" class="card"><div class="card-icon gradient-4"><i class="fa fa-brain"></i></div><h3 class="card-title">GLM</h3><p class="card-desc">智谱AI大模型</p></a>
                         </div>
                     </div>
 
@@ -929,10 +914,7 @@
             themeToggle: document.getElementById('themeToggle'),
 
             searchInput: document.getElementById('searchInput'),
-            clearSearch: document.getElementById('clearSearch'),
-            heroChips: document.querySelectorAll('.hero-chip'),
-            filteredCount: document.getElementById('filteredCount'),
-            totalCount: document.getElementById('totalCount')
+            clearSearch: document.getElementById('clearSearch')
         };
 
         function updateTime() {
@@ -1022,7 +1004,7 @@
                 if (show) visible += 1;
             });
 
-            if (DOM.filteredCount) DOM.filteredCount.textContent = visible;
+
         }
 
         function initSearch() {
@@ -1043,8 +1025,7 @@
                 card.dataset.search = (sectionTitle + ' ' + sectionId + ' ' + title + ' ' + desc).toLowerCase();
             });
 
-            if (DOM.totalCount) DOM.totalCount.textContent = cards.length;
-            if (DOM.filteredCount) DOM.filteredCount.textContent = cards.length;
+
 
             if (!DOM.searchInput || !DOM.clearSearch) return;
 
@@ -1058,31 +1039,7 @@
                 DOM.searchInput.focus();
             });
 
-            if (DOM.heroChips && DOM.heroChips.length) {
-                DOM.heroChips.forEach((chip) => {
-                    chip.addEventListener('click', () => {
-                        const q = chip.getAttribute('data-q') || '';
-                        const targetSel = chip.getAttribute('data-target') || '';
-                        if (DOM.searchInput) {
-                            DOM.searchInput.value = q;
-                            applySearch(q);
-                            DOM.searchInput.focus();
-                        }
-                        if (targetSel) {
-                            const el = document.querySelector(targetSel);
-                            if (el) {
-                                const offset = 40;
-                                const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
-                                window.scrollTo({ top, behavior: 'smooth' });
-                            }
-                        }
 
-                        if (window.matchMedia && window.matchMedia('(max-width: 1024px)').matches && DOM.sidebar) {
-                            DOM.sidebar.classList.remove('open');
-                        }
-                    });
-                });
-            }
         }
 
         function initActiveNavByScroll() {
