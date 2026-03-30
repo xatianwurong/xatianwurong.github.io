@@ -1054,7 +1054,52 @@
 
             if (!sectionMap.length) return;
 
-            const observer = new IntersectionObserver((entries) => {
+            let isScrolling = false;
+            let scrollTimeout;
+            let observer;
+
+            // 监听滚动事件，检测滚动是否完成
+            window.addEventListener('scroll', () => {
+                if (isScrolling) {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        isScrolling = false;
+                    }, 150);
+                }
+            });
+
+            // 添加点击事件监听器
+            navItems.forEach((navItem) => {
+                navItem.addEventListener('click', (e) => {
+                    e.preventDefault(); // 阻止默认跳转
+                    
+                    const href = navItem.getAttribute('href');
+                    const targetId = href.slice(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        // 立即更新导航状态
+                        DOM.navItems.forEach(item => item.classList.remove('active'));
+                        navItem.classList.add('active');
+                        
+                        // 标记为正在滚动
+                        isScrolling = true;
+                        
+                        // 平滑滚动到目标区域
+                        const offset = 40;
+                        const top = targetSection.getBoundingClientRect().top + window.pageYOffset - offset;
+                        window.scrollTo({ 
+                            top, 
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            observer = new IntersectionObserver((entries) => {
+                // 如果正在滚动，不更新状态
+                if (isScrolling) return;
+                
                 const visible = entries
                     .filter((e) => e.isIntersecting)
                     .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
